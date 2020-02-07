@@ -33,8 +33,17 @@ final static int WHILE = 1004;
 final static int VAR = 1005;
 final static int RETURN = 1006;
 final static int NAME = 1007;
-final static int OPNAME = 1008;
-final static int LITERAL = 1009;
+final static int OPNAME1 = 1008;
+final static int OPNAME2 = 1009;
+final static int OPNAME3 = 1010;
+final static int OPNAME4 = 1011;
+final static int OPNAME5 = 1012;
+final static int OPNAME6 = 1013;
+final static int OPNAME7 = 1014;
+final static int AND = 1015;
+final static int OR = 1016;
+final static int NOT = 1017;
+final static int LITERAL = 1018;
 
 // A variable that will contain lexemes as they are recognized:
 private static String lexeme;
@@ -56,7 +65,7 @@ public static void main( String[] args ) throws Exception
   /* Reglulegar skilgreiningar */
 
   /* Regular definitions */
-
+_MULTILINECOMMENT = (\{;;; (.*|\n|\r|\t) *;;;\})
 _DIGIT=[0-9]
 _FLOAT={_DIGIT}+\.{_DIGIT}+([eE][+-]?{_DIGIT}+)?
 _INT={_DIGIT}+
@@ -113,7 +122,39 @@ _OPNAME=[\+\-*/!%=><\:\^\~&|?]+
 
 {_OPNAME} {
 	lexeme = yytext();
-	return OPNAME;
+
+	if(lexeme.equals("&&")){
+		return AND;
+	} else if(lexeme.equals("||")){
+		return OR;
+	}	else if(lexeme.equals("!")){
+		return NOT;
+	}
+
+	char firstLetter = lexeme.charAt(0);
+	if(firstLetter == '*' 
+	|| firstLetter == '/' 
+	|| firstLetter == '%'){
+		return OPNAME1;
+	} else if(firstLetter == '+' | firstLetter == '-'){
+		return OPNAME2;
+	} else if (firstLetter == '<'
+	|| firstLetter =='>'
+	|| firstLetter == '!'
+	|| firstLetter == '='){
+		return OPNAME3;
+	} else if (firstLetter == '&'){
+		return OPNAME4;
+	} else if (firstLetter == '|'){
+		return OPNAME5;
+	}	else if (firstLetter == ':'){
+		return OPNAME6;
+	} else if (firstLetter == '?'
+	|| firstLetter == '~'
+	|| firstLetter == '^'){
+		return OPNAME7;
+	}
+
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
@@ -122,6 +163,10 @@ _OPNAME=[\+\-*/!%=><\:\^\~&|?]+
 }
 
 ";;;".*$ {
+}
+
+{_MULTILINECOMMENT} {
+
 }
 
 [ \t\r\n\f] {
