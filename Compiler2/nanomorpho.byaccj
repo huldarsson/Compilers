@@ -3,7 +3,7 @@
 %}
 
 %token <sval> OPNAME, WHILE, LITERAL, IF, ELSIF, ELSE, RETURN, NAME,OPNAME1,OPNAME2,OPNAME3,OPNAME4,OPNAME5,OPNAME6,OPNAME7
-%type <obj> program, function, args, declarations, decl, expressions, expr, binopexpr, restofbinop, smallexpr, inside, ifexpr, elsif, else, body
+%type <obj> program, function, args, declarations, decl, expressions, expr, binopexpr, binopexpr1, binopexpr2, binopexpr3, binopexpr4, binopexpr5, binopexpr6, binopexpr7, smallexpr, inside, ifexpr, elsif, else, body
 
 %%
 
