@@ -30,20 +30,20 @@ function :
 
 
 
-names : names ',' NAME  {addVar($1); $$ = $1 + 1}
+names : names ',' NAME  {addVar($3); $$ = $1 + 1}
      | NAME      {addVar($1); $$ = $1 + 1}
      |           {$$ = 0}
      ;
 
 
-declarations : decl ';' declarations { $$ = $3 + 1; }
+declarations : VAR decl ';' declarations { $$ = $3 + 1; }
              |                       { $$ = 0; }
              ;
 
 
 
-decl : VAR NAME ',' { addVar($2); }
-     | VAR NAME     { addVar($2); }
+decl : decl ',' Name{ addVar($2); }
+     | NAME     { addVar($2); }
      ;
 
 
