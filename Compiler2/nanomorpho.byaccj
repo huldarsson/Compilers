@@ -1,0 +1,173 @@
+%{
+  import java.io.*;
+%}
+
+%token <sval> OPNAME, WHILE, LITERAL, IF, ELSIF, ELSE, RETURN, NAME,OPNAME1,OPNAME2,OPNAME3,OPNAME4,OPNAME5,OPNAME6,OPNAME7
+%type <obj> program, function, args, declarations, decl, expressions, expr, binopexpr, restofbinop, smallexpr, inside, ifexpr, elsif, else, body
+
+%%
+
+start : program { generateProgram(nanoMorpho, ((Vector<Object>)($1)).toArray()); }
+      ;
+
+
+
+program : program function {((Vector<Object>)($1)).add($2); $$ = $1}
+        | function {$$ = new Vector<Object>(); ((Vector<Object>)($$)).add($1); }
+        ;
+
+
+
+function :
+          {
+            varCount = 0;
+            varTable = new HashMap<String, Integer>();
+          }
+           NAME '(' args ')' '{' declarations expressions '}' {$$ = new Object[]{$2, $4, $7, $8}; }
+         ;
+
+
+
+args : NAME ','  {addVar($1); $$ = $1 + 1}
+     | NAME      {addVar($1); $$ = $1 + 1}
+     |           {$$ = 0}
+     ;
+
+
+declarations : decl ';' declarations { $$ = $3 + 1; }
+             |                       { $$ = 0; }
+             ;
+
+
+
+decl : 'var' NAME ',' { addVar($2); }
+     | 'var' NAME     { addVar($2); }
+     ;
+
+
+
+expressions : expr ';' expressions { (Vector<Object>)($$).add($1) }
+            |                      { $$ = new Vector<Object>(); }
+            ;
+
+
+
+expr : RETURN orexpr
+     | orexpr
+     ;
+
+
+
+orexpr : andexpr '||' orexpr
+       | andexpr
+       ;
+
+      
+
+andexpr : notexpr '&&' andexpr
+        | notexpr
+        ;
+
+
+
+notexpr : '!' notexpr
+        | binopexpr1
+        ;
+
+
+
+binopexpr1 : binopexpr1 OPNAME1 binopexpr2
+           | binopexpr2
+
+
+
+
+binopexpr2 : binopexpr3 OPNAME2 binopexpr2
+           | binopexpr3 
+           ;
+
+
+
+binopexpr3 : binopexpr3 OPNAME3 binopexpr4
+           | binopexpr4
+           ;
+
+
+
+
+binopexpr4 : binopexpr4 OPNAME4 binopexpr5
+           | binopexpr5
+           ;
+
+
+
+
+binopexpr5 : binopexpr5 OPNAME5 binopexpr6
+           | binopexpr6
+           ;
+
+
+
+binopexpr6 : binopexpr6 OPNAME6 binopexpr7
+           | binopexpr7
+           ;
+
+
+
+binopexpr7 : binopexpr7 OPNAME7 smallexpr
+           | smallexpr
+           ;
+
+
+           
+           
+           /*EÐA*/
+
+binopexpr : binopexpr OP smallexpr
+          | smallexpr
+          ;
+
+OP : OPNAME1 | OPNAME2 | OPNAME3 | OPNAME4 | OPNAME5 | OPNAME6 | OPNAME7
+
+
+
+
+smallexpr : NAME '(' inside ')'
+          | WHILE expr body
+          | ifexpr
+          | LITERAL
+          | OPNAME smallexpr
+          | '(' expr ')'
+          ;
+
+
+
+inside : expr ','
+       | expr
+       |
+       ;
+
+
+
+ifexpr : IF '(' expr ')' body elsif else
+       ;
+
+
+
+elsif : ELSIF '(' expr ')' body elsif
+      |
+      ;
+
+
+
+else : ELSE body
+     |
+     ;
+
+
+
+body : '{' expressions '}'
+
+
+          
+           
