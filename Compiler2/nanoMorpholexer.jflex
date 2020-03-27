@@ -32,9 +32,9 @@ import java.io.*;
 
 public NanoMorphoParser yyparser;
 
-public static NanoMorphoLexer newLexer(java.io.Reader r, NanoMorphoParser yyparser) {
+public NanoMorphoLexer(java.io.Reader r, NanoMorphoParser yyparser) {
     this(r);
-    this.yyparser = yyparser
+    this.yyparser = yyparser;
 }
 
 public int getLine() {
@@ -67,7 +67,7 @@ _NAME    = [:letter:]([:letter:]|{_DIGIT})*
 
 {_DELIM} {
     yyparser.yylval = new NanoMorphoParserVal(yytext());
-    return NanoMorphoParser.DELIM;
+    return yycharat(0);
 }
 
 {_STRING} | {_FLOAT} | {_CHAR} | {_INT} | null | true | false {
@@ -109,7 +109,7 @@ _NAME    = [:letter:]([:letter:]|{_DIGIT})*
 
 {_OPNAME} {
     yyparser.yylval = new NanoMorphoParserVal(yytext());
-    String curr = yytext()
+    String curr = yytext();
 
     if(curr.equals("&&")){
         return NanoMorphoParser.OPNAME_AND;
@@ -155,10 +155,6 @@ _NAME    = [:letter:]([:letter:]|{_DIGIT})*
 }
 
 {_COMMENT} {
-}
-
-<<EOF>> {
-    return EOF;
 }
 
 [ \t\r\n\f] {
