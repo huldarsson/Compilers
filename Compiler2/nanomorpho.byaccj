@@ -344,7 +344,7 @@ static void generateExpression(Object[] expr){
           int labEnd = newLabel();
           generateJump((Object[]) expr[1], 0, labElse);
           generateExpression((Object[]) expr[2]);
-          emit("(Go %s)", labEnd);
+          emit("(Go _%s)", labEnd);
           emit("_%d:", labElse);
           if (null != (Object) expr[3]) {
               generateExpression((Object[]) expr[3]);
@@ -457,7 +457,7 @@ static void generateExpression(Object[] expr){
                 int labEnd = newLabel();
                 generateJump((Object[]) expr[1], 0, labElse);
                 generateExpression((Object[]) expr[2]);
-                emit("(Go %s)", labEnd);
+                emit("(Go _%s)", labEnd);
                 emit("_%d:", labElse);
                 if ((Object) expr[3] != null) {
                     generateExpression((Object[]) expr[3]);
