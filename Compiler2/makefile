@@ -9,7 +9,7 @@ NanoMorphoLexer.java: nanoMorphoLexer.jflex
 	java -jar jflex-full-1.7.0.jar nanoMorphoLexer.jflex
 
 NanoMorphoParser.java NanoMorphoParserVal.java: nanomorpho.byaccj
-	./byacc -Jclass=NanoMorphoParser nanomorpho.byaccj
+	./byacc.exe -Jclass=NanoMorphoParser nanomorpho.byaccj
 
 
 clean:
