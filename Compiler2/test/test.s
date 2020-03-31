@@ -2,7 +2,8 @@
 
 main () {
     var john, cena, sum;
-    var isCool;
+    var isCool, ls;
+    var haus, hali;
 
     writeln("fibo(7):");
     writeln(fibo(7));
@@ -13,7 +14,16 @@ main () {
 
     printTest("test1", "test2");
 
-    writeln(fun4());
+    ls = fun4();
+    writeln(ls);
+    writeln("Prufulisti");
+    hali = ls;
+    while (!(hali == null)) {
+        haus = head(hali);
+        writeln(haus);
+        hali = tail(hali);
+    };
+    writeln("Prufulisti Endar");
 
     writeln(fun2("a", null));
 }
@@ -54,9 +64,11 @@ fun3(x)
 }
 
 fun4(){
-    var t;
-    t = 4 * 3;
-    return 1:2:3:4:null;
+    var ls;
+
+    ls = 1:2:3:4:null;
+
+    return ls;
 }
 
 fun5(test){
