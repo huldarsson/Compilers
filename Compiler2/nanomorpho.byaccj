@@ -38,19 +38,19 @@ names : names ',' NAME  {addVar($3); $$ = $1 + 1; }
      ;
 
 
-declarations : VAR decl ';' declarations { $$ = $4 + $2; }
-             |                           { $$ = 0; }
+declarations : declarations decl ';' { $$ = $1 + $2; }
+             |                { $$ = 0; }
              ;
 
 
 
-decl : decl ',' NAME { addVar($3); $$ = $1 + 1; }
-     | NAME          { addVar($1); $$ = $$ + 1; }
+decl : decl ',' NAME     { addVar($3); $$ = $1 + 1; }
+     | VAR NAME          { addVar($2); $$ = 1; }
      ;
 
 
 
-expressions : expr ';' expressions {$$ = $3; ((Vector<Object>)($$)).add($1); }
+expressions : expressions expr ';'  {$$ = $1; ((Vector<Object>)($$)).add($2); }
             |                      { $$ = new Vector<Object>(); }
             ;
 

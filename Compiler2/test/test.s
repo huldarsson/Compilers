@@ -1,12 +1,15 @@
 main () {
-  if(2==1){
-    writeln("her");
-  } elsif(2==3){
-    writeln("her2");
-  } else{
-    writeln("her3");
-  };
-  writeln("utan");
-  writeln("test");
+    writeln("Fibonacci af 7:");
+    writeln(fibo(20));
 }
+
+fibo(n){
+    if(n <= 2){
+        return 1;
+    } else {
+        return fibo(n-1) + fibo(n-2);
+    };
+        writeln(n);
+}
+
 
