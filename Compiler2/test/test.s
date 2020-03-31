@@ -1,11 +1,12 @@
 main () {
-  var test;
-  writeln(2+2);
-  writeln(fun(5));
-  writeln(test);
-  test = 2;
+  if(2==1){
+    writeln("her");
+  } elsif(2==3){
+    writeln("her2");
+  } else{
+    writeln("her3");
+  };
+  writeln("utan");
+  writeln("test");
 }
 
-fun(x){
-  x+2;
-}

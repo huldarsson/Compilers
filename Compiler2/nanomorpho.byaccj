@@ -4,7 +4,7 @@
 %}
 %token <sval> LITERAL, NAME, OPNAME1, OPNAME2, OPNAME3, OPNAME4, OPNAME5, OPNAME6, OPNAME7
 %token WHILE, IF, ELSIF, ELSE, RETURN ,OPNAME_AND, OPNAME_OR, OPNAME_NOT, VAR, EOF
-%type <obj> program, function, args, nonemptyargs, expressions, expr, binopexpr, op, orexpr, andexpr, notexpr, smallexpr, ifexpr, elsif, else, body
+%type <obj> program, function, args, nonemptyargs, expressions, expr, binopexpr, op, orexpr, andexpr, notexpr, smallexpr, ifexpr, elsif, body
 %type <ival> decl, declarations, names
 %left OPNAME1, OPNAME3, OPNAME4, OPNAME5, OPNAME6, OPNAME7
 %right OPNAME2
@@ -167,24 +167,22 @@ nonemptyargs : nonemptyargs ',' expr  { ((Vector<Object>)($1)).add(((Vector<Obje
 
 
 
-ifexpr : IF '(' expr ')' body elsif else { $$ = new Object[]{"IF", $3, $5, ((Vector<Object>)($6)).toArray(), $7}; }
+ifexpr : IF '(' expr ')' body elsif { $$ = new Object[]{"IF", $3, $5, $6}; }
        ;
 
 
 
-elsif : ELSIF '(' expr ')' body elsif {$$ = $6; ((Vector<Object>)($$)).add($3); ((Vector<Object>)($$)).add($5); }
-      |                               { $$ = new Vector<Object>(); }
+elsif : ELSIF '(' expr ')' body elsif {$$ = new Object[]{"IF", $3, $5, $6}; }
+      | ELSE body                     {$$ = $2;}
+      |                               { $$ = null; }
       ;                             
 
 
 
-else : ELSE body {$$ = $2; }
-     |           {$$ = null; }
-     ;
 
 
 
-body : '{' expressions '}' { $$ = new Object[]{"BODY", $2}; }
+body : '{' expressions '}' { $$ = new Object[]{"BODY", ((Vector<Object>)($2)).toArray()}; }
 
 
 %%
