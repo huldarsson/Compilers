@@ -128,13 +128,14 @@ binopexpr7 : binopexpr7 OPNAME7 smallexpr
            
            /*EÐA*/
 
-binopexpr : binopexpr op smallexpr { $$ = new Object[]{"CALL", $2, new Object[]{$1, $3}}; }
+binopexpr : binopexpr OPNAME2 binopexpr { $$ = new Object[]{"CALL", $2, new Object[]{$1, $3}}; }
+            | binopexpr op smallexpr { $$ = new Object[]{"CALL", $2, new Object[]{$1, $3}}; }
           | smallexpr              { $$ = $1; }
           ;
 
 
 op : OPNAME1 {$$ = $1;}
-   | OPNAME2 {$$ = $1;}
+   /*| OPNAME2 {$$ = $1;}*/
    | OPNAME3 {$$ = $1;}
    | OPNAME4 {$$ = $1;}
    | OPNAME5 {$$ = $1;}
